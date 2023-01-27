@@ -22,6 +22,20 @@ style modules in Garry's Mod.
 * Basic support for Lua 5.1 modules (must be pure Lua and take note of
   `package.environment` limitations)
 
+## Default configuration
+`package.path`:
+```
+'?.lua'
+'?/init.lua'
+'lib/share/lua/5.1/?.lua'
+'lib/share/lua/5.1/?/init.lua'
+```
+
+`package.loaders`
+* stock Lua module loader (loads modules from `includes/modules`)
+* custom Lua module loader (loads modules according to `package.path`)
+* binary Lua module loader (loads modules from `includes/modules`)
+
 ## Example
 `autorun/test.lua`:
 ```lua
@@ -44,7 +58,7 @@ print(y.translation)
 ```lua
 print 'Hello'
 return {
-  standard = 'Lorem ipsum dolor sit amet'
+  standard = 'Lorem ipsum dolor sit amet',
   translated = 'The customer is very happy'
 }
 ```
@@ -70,3 +84,6 @@ By default, `package.path` expects these types of modules to exist inside the
 `lib` folder. This is so you can run `luarocks install <module> --tree lib`. If
 you're not a fan, you can modify `package.path` to fit your needs - preferably
 by appending or prepending paths.
+
+## Compiling
+This builds on Linux with `moonc` and a `Makefile`. Run `make`.
