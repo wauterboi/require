@@ -3,11 +3,15 @@
   "type":   "tool",
   "tags":   [],
   "ignore": [
-    "moon",
-    ".vscode",
-    ".git",
+    ".git/*",
     ".gitignore",
+    ".vscode/*",
     "COPYING",
-    "Makefile"
+    "Makefile",
+    "README.md",
+    "moon/*",
+    "require.afdesign",
+    "require.jpg",
+    "*.zip"
   ]
 }
