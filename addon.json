@@ -1,0 +1,13 @@
+{
+  "title":  "require",
+  "type":   "tool",
+  "tags":   [],
+  "ignore": [
+    "moon",
+    ".vscode",
+    ".git",
+    ".gitignore",
+    "COPYING",
+    "Makefile"
+  ]
+}
