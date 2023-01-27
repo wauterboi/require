@@ -1,5 +1,4 @@
 lua
 *.zip
-*.afdesign
-*.gma
-*.jpg
+release
+media
