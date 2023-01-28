@@ -1,15 +1,29 @@
-MOON_DIR = moon
-LUA_DIR = lua
+PROJECT_NAME := $(shell basename $(PWD))
 
-MOON_FILES = $(shell find $(MOON_DIR)/ -type f -name '*.moon')
-LUA_FILES = $(patsubst $(MOON_DIR)/%.moon, $(LUA_DIR)/%.lua, $(MOON_FILES))
+TARGET_MOON_FILES := $(shell find . -type "f" -name '*.moon')
+TARGET_LUA_FILES := $(patsubst %.moon, %.lua, $(TARGET_MOON_FILES))
 
-all: $(LUA_FILES)
+all: $(TARGET_LUA_FILES)
 
-$(LUA_DIR)/%.lua: $(MOON_DIR)/%.moon
-	mkdir -p "$(@D)"
+%.lua: %.moon
 	moonc -o "$@" "$<"
-	
-.PHONY: clean
+
+.PHONY: clean bundle
 clean:
-	rm -rf $(LUA_DIR)
+	rm -f $(shell find . -type f -name '*.lua')
+	
+bundle: clean all
+	echo $(TARGET_MOON_FILES)
+	mkdir -p releases
+	zip -q releases/$(PROJECT_NAME)-X.X.X.zip\
+		$(TARGET_LUA_FILES)\
+		maps\
+		backgrounds\
+		gamemodes\
+		materials\
+		scenes\
+		models\
+		scripts\
+		particles\
+		sound\
+		resource
