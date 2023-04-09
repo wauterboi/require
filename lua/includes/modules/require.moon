@@ -331,13 +331,6 @@ get_stock_loader = do
     if file.Exists filepath, 'LUA' then compile filepath, _G
     string.format "no stock module for '%s', tried %s", name, filepath
 
---- Bogus value meant to signify an attempt to recursively require a module.
---  @realm    : shared
---  @scope    : local
---  @type     : table
---  @warning  :
-guard = {}
-
 --- Iterates over all searchers in the `searchers`/`package.loaders` table.
 --  The binary loader, which is not in the table, is always attempted last.
 --  @realm    : shared
@@ -432,12 +425,8 @@ searchers = package.loaders
 --          for more information.
 _G.require = (name) ->
   lookup = returns[name]
-  if lookup == guard
-    error string.format "recursive require for module '%s' detected", name
   if lookup ~= nil
     return lookup
-
-  returns[name] = guard
 
   loader        = get_loader name
   loaders[name] = loader
