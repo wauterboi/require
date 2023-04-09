@@ -452,3 +452,6 @@ package.environment.require = require
 -- Add default searchers
 for searcher in *{get_cached_loader, get_stock_loader, get_custom_loader}
   table.insert searchers, searcher
+
+-- Prevent this file from running again
+loaded.require = require
