@@ -328,7 +328,7 @@ get_stock_loader = do
   (name) ->
     fragment  = fragments[name]
     filepath  = string.gsub MODULE_PATH, '?', fragment
-    if file.Exists filepath, 'LUA' then compile filepath, _G
+    if file.Exists filepath, 'LUA' then return compile filepath, _G
     string.format "no stock module for '%s', tried %s", name, filepath
 
 --- Iterates over all searchers in the `searchers`/`package.loaders` table.
@@ -443,4 +443,4 @@ for searcher in *{get_cached_loader, get_stock_loader, get_custom_loader}
   table.insert searchers, searcher
 
 -- Prevent this file from running again
-loaded.require = require
+returns.require = require
