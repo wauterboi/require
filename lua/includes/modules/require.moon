@@ -29,6 +29,21 @@ compile = (filepath, environment) ->
   loader = CompileFile filepath
   return setfenv loader, environment or _G
 
+--- Module search path templates. See `package.path` in the Lua 5.1 manual for
+--  more information.
+--  @realm    : shared
+--  @scope    : global
+--  @type     : string
+--  @warning  :
+--    *   The `file` library does not support leading slashes, so neither does
+--        this function.
+package.path = table.concat {
+  '?.lua'
+  '?/init.lua'
+  'lib/share/lua/5.1/?.lua'
+  'lib/share/lua/5.1/?/init.lua'
+}, ';'
+
 --- Environment for modules loaded using `get_custom_loader`. It is meant to
 --  serve as an environment as close to the traditional Lua 5.1 environment
 --  as reasonable. The default global table is accessible through `require
@@ -137,7 +152,7 @@ package.environment = do
       'difftime'
       'time'
     }
-    package: copy os, {
+    package: copy package, {
       'loaded'
       'loaders'
       'path'
@@ -360,21 +375,6 @@ iterate_searchers = ->
 --    *   string -> function or `nil`
 --        the module name points to its loader if precached
 loaders = package.preload
-
---- Module search path templates. See `package.path` in the Lua 5.1 manual for
---  more information.
---  @realm    : shared
---  @scope    : global
---  @type     : string
---  @warning  :
---    *   The `file` library does not support leading slashes, so neither does
---        this function.
-package.path = table.concat {
-  '?.lua'
-  '?/init.lua'
-  'lib/share/lua/5.1/?.lua'
-  'lib/share/lua/5.1/?/init.lua'
-}, ';'
 
 --- Cached return values. If a module is executed but returns no values, `true`
 --  is stored in its place. See `package.loaded` in the Lua 5.1 manual for more
