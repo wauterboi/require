@@ -137,7 +137,7 @@ package.environment = do
       'difftime'
       'time'
     }
-    package: copy os, {
+    package: copy package, {
       'loaded'
       'loaders'
       'path'
