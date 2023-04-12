@@ -302,7 +302,7 @@ get_loader = (name) ->
       when 'string'   then result
       else
         error(
-          string.format "expected table or string from searcher %u, got %s",
+          string.format "expected function or string from searcher %u, got %s",
           index,
           result_t or 'nil'
         )
