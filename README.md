@@ -16,9 +16,9 @@ style modules in Garry's Mod.
 * Detoured `require` to reference package library keyvalues and allow for return
   values
 * Added `package.environment`, which is used as the global table for custom
-  modules. By default, it mirrors a basic Lua 5.1 environment and contains
-  only two extra keyvalues: `default`, which is the default global table, and
-  `AddCSLuaFile`.
+  modules. By default, it mirrors a basic Lua 5.1 environment.
+* `require 'gmod'` can be used to get a reference to the default global
+  environment, i.e. `require('gmod').Msg('hello, world!')`
 * Basic support for Lua 5.1 modules (must be pure Lua and take note of
   `package.environment` limitations)
 
@@ -59,7 +59,7 @@ print(y.translation)
 print 'Hello'
 return {
   standard = 'Lorem ipsum dolor sit amet',
-  translated = 'The customer is very happy'
+  translation = 'The customer is very happy'
 }
 ```
 
