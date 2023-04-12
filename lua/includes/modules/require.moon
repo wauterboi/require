@@ -46,7 +46,6 @@ compile = (filepath, environment) ->
 package.environment = do
   copy = (tab, keys) -> {key, tab[key] for key in *keys}
   {
-    :AddCSLuaFile
     :_G
     :_VERSION
     :assert
