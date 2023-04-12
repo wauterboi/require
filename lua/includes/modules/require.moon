@@ -31,8 +31,8 @@ compile = (filepath, environment) ->
 
 --- Environment for modules loaded using `get_custom_loader`. It is meant to
 --  serve as an environment as close to the traditional Lua 5.1 environment
---  as reasonable, while providing the default global library through the
---  `default` global keyvalue.
+--  as reasonable. The default global table is accessible through `require
+--  'gmod'`
 --  @realm    : shared
 --  @scope    : global
 --  @type     : table
@@ -76,7 +76,6 @@ package.environment = do
     :type
     :unpack
     :xpcall
-    default: _G
     coroutine: copy coroutine, {
       'create'
       'resume'
@@ -268,7 +267,7 @@ get_cached_loader = (name) ->
 --    1.  The returned loader has its environment set to `package.environment`,
 --        which more closely resembles a Lua 5.1 environment. The only Garry's
 --        Mod function included is `AddCSLuaFile`, and the default global
---        environment can only be accessed through the `default` keyvalue.
+--        environment can be accessed through `require 'gmod'`
 get_custom_loader = (name) ->
   fragment  = fragments[name]
   log       = for template in string.gmatch package.path, '([^;]+)'
@@ -302,7 +301,7 @@ get_loader = (name) ->
       when 'string'   then result
       else
         error(
-          string.format "expected function or string from searcher %u, got %s",
+          string.format "expected table or string from searcher %u, got %s",
           index,
           result_t or 'nil'
         )
@@ -444,3 +443,6 @@ for searcher in *{get_cached_loader, get_stock_loader, get_custom_loader}
 
 -- Prevent this file from running again
 returns.require = require
+
+-- Add global table to return cache
+returns.gmod = _G
