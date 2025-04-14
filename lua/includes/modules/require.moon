@@ -250,7 +250,7 @@ get_binary_loader = do
     --
     string.format "no binary module for '%s', tried %s", name, filepath
 
---- Returns the cached loader for the module if possible.
+--- Returns the predefined loader for the module if possible.
 --  @realm    : shared
 --  @scope    : global
 --  @type     : function
@@ -265,7 +265,7 @@ get_binary_loader = do
 --        binary modules. See `STOCK_REQUIRE` for more information.
 get_cached_loader = (name) ->
   if loader = loaders[name] then return loader
-  string.format "no cached loader for '%s'", name
+  string.format "no predefined loader for '%s'", name
 
 --- Returns the custom compiled loader for the module if possible.
 --  @realm    : shared
@@ -310,7 +310,6 @@ get_loader = (name) ->
     result_t  = type result
     switch result_t
       when 'function'
-        loaders[name] = result
         return result
       when 'string'   then result
       else
@@ -373,7 +372,7 @@ iterate_searchers = ->
 --  @type     : table
 --  @keyvalue :
 --    *   string -> function or `nil`
---        the module name points to its loader if precached
+--        the module name points to its loader if predefined
 loaders = package.preload
 
 --- Cached return values. If a module is executed but returns no values, `true`
@@ -427,8 +426,6 @@ _G.require = (name) ->
     return lookup
 
   loader        = get_loader name
-  loaders[name] = loader
-
   result        = loader(name) or true
   returns[name] = result
   result
